@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="\stylesheets\style.css" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/lucida-console" rel="stylesheet">
+    <title>Console</title>
+</head>
+
+<body>
+    <div id="terminal">
+        <div id="terminalbody">
+
+        </div>
+        <form name="terminal" method="post">
+            <input type="text" id="inpfield" name="inpfield" maxlength="20" autofocus>
+        </form>
+    </div>
+
+
+
+    <script>
+        function cprint(prinput, type) {
+            let reply = document.createElement('div');
+            reply.textContent = prinput;
+            switch (type) {
+                case "rp": reply.textContent = "[R] " + reply.textContent; break;
+                case "db": reply.textContent = "[DEBUG] " + reply.textContent; break;
+                case "if": reply.textContent = "[I] " + reply.textContent; break;
+                default: break;
+            }
+            document.querySelector('#terminalbody').appendChild(reply);
+        }
+
+        document.querySelector('form[name="terminal"]').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const userInput = this.elements.inpfield.value;
+            const newLine = document.createElement('div');
+            cprint(" >> " + userInput)
+            this.reset();
+            switch (userInput.split(" ")[0].trim()) {
+                case "info":
+                    info(userInput);
+                    break;
+                default: console.log("no")
+            }
+        });
+
+        function info(input) {
+            console.log(input)
+            const uinput = input.split(" ")
+            if (uinput.length > 1) {
+                const uinpsplit = uinput[1].trim()
+                if (uinpsplit == 'changelogs') {
+                    cprint('Last updates:', "rp");
+                    cprint('10.11.2023 v0.01: Console commands engine introduced.', "if");
+                }
+            } else {
+                cprint("                       .. - ----.");
+                cprint("                     I'__. ..- '';");
+                cprint("                     |           .");
+                cprint("                     J.");
+                cprint("                      L:..._.- -' .");
+                cprint("                      |           .");
+                cprint("                      J.");
+                cprint("                       L:..._.- -' .");
+                cprint("                       |           .");
+                cprint("                       J.");
+                cprint("                        L:..._.- -' .");
+                cprint("                        |:.");
+                cprint("       ________________ J8:,          ______________a:f____");
+                cprint("             a88888baaa. LP:....- -' .");
+                cprint('               `"88888888|8:.        .');
+                cprint('                   `"8888:8::...    _J');
+                cprint('                        " `""PPPPP""');
+                cprint('    "The Chamber Of Secrets" v0.01');
+                cprint('    By balaam_');
+                cprint('    Last update: 10.11.2023');
+            }
+        }
+    </script>
+</body>
+
+</html>

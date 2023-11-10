@@ -1,0 +1,22 @@
+{
+  "name": "testroom17",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "npx nodemon app.js"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "^4.18.2",
+    "http-errors": "~1.6.3",
+    "jquery": "^3.7.1",
+    "morgan": "~1.9.1",
+    "nunjucks": "^3.2.4",
+    "sqlite": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
