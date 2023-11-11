@@ -1,8 +1,6 @@
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: #222121;
-  height: 100%;
-  width: 100%;
 }
 
 a {
@@ -11,7 +9,6 @@ a {
 
 #terminal {
   background-color: #0f0f0f;
-  width: 60vw;
   height: 80vh;
   position: absolute;
   margin-left: 18vw;
@@ -24,9 +21,9 @@ a {
 }
 
 #terminalbody {
-  width: 60vw;
-  height: auto;
-  position: absolute;
+  width: 55vw;
+  background-color: #fff;
+  position: relative;
   border-radius: 10px;
   padding: 20px;
   display: flex;
@@ -34,6 +31,8 @@ a {
   align-items: flex-start;
   justify-content: flex-end;
   margin-bottom: 3vh;
+  overflow: scroll;
+  height: 500px;
 }
 
 #inpfield {
@@ -60,4 +59,3 @@ a {
   position: relative;
   white-space: pre-wrap;
 }
-
