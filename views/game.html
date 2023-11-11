@@ -89,11 +89,15 @@
 
         function examine(input) {
             switch (input) {
-                case '': 
-                cprint('You look around.', 'rp')
-                cprint(roomdesc[roomid], 'if')
-                cprint($('In the room you can see: \n', items[roomid]), 'if')
+                case '':
+                    cprint('You look around.', 'rp')
+                    cprint(roomdesc[roomid], 'if')
+                    cprint($('In the room you can see: \n', items[roomid]), 'if')
             }
+        }
+
+        function begin(input) {
+
         }
 
         document.querySelector('form[name="terminal"]').addEventListener('submit', function (event) {
@@ -120,7 +124,7 @@
                             begin(resinput)
                         }
                         break;
-                    default: 
+                    default:
                         cprint('Unknown command.', 'err')
                 }
             } else if (gameon == true) {

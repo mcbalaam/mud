@@ -22,17 +22,13 @@ a {
 
 #terminalbody {
   width: 55vw;
-  background-color: #fff;
   position: relative;
   border-radius: 10px;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
-  margin-bottom: 3vh;
-  overflow: scroll;
-  height: 500px;
+  overflow-y: scroll;
+  height: 640px;
 }
 
 #inpfield {
@@ -58,4 +54,8 @@ a {
   font-size: 15px;
   position: relative;
   white-space: pre-wrap;
+}
+
+#terminalbody>div:first-child {
+  margin-top: auto;
 }
