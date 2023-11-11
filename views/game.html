@@ -53,41 +53,6 @@
             }
         }
 
-        document.querySelector('form[name="terminal"]').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const userInput = this.elements.inpfield.value;
-            const newLine = document.createElement('div');
-            cprint(" >> " + userInput)
-            this.reset();
-            let uinput = userInput.split(" ")
-            console.log(uinput)
-            if (uinput.length > 1) {
-                resinput = uinput[1].trim()
-            } else {
-                resinput = ''
-            }
-            if (gameon == false) {
-                switch (userInput.split(" ")[0].trim()) {
-                    case "info":
-                        info(resinput);
-                        break;
-                    case "begin":
-                        let gameon = true;
-                        if (beginatt(resinput) == true) {
-                            cprint('Level initializing.', 'rp')
-                            begin(resinput)
-                        }
-                        break;
-                    default: console.log("no")
-                }
-            } else if (gameon == true) {
-                switch (userInput.split(" ")[0].trim()) {
-                    case "ex":
-                        examine(userInput)
-                }
-            }
-        });
-
         function info(input) {
             switch (input) {
                 case 'changelogs':
@@ -121,6 +86,66 @@
                     return false;
             }
         }
+
+        function examine(input) {
+            switch (input) {
+                case '': 
+                cprint('You look around.', 'rp')
+                cprint(roomdesc[roomid], 'if')
+                cprint($('In the room you can see: \n', items[roomid]), 'if')
+            }
+        }
+
+        document.querySelector('form[name="terminal"]').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const userInput = this.elements.inpfield.value;
+            const newLine = document.createElement('div');
+            cprint(" >> " + userInput)
+            this.reset();
+            let uinput = userInput.split(" ")
+            if (uinput.length > 1) {
+                resinput = uinput[1].trim()
+            } else {
+                resinput = ''
+            }
+            if (gameon == false) {
+                switch (uinput[0]) {
+                    case "info":
+                        info(resinput);
+                        break;
+                    case "begin":
+                        if (beginatt(resinput) == true) {
+                            gameon = true;
+                            cprint('Level initializing.', 'rp')
+                            begin(resinput)
+                        }
+                        break;
+                    default: 
+                        cprint('Unknown command.', 'err')
+                }
+            } else if (gameon == true) {
+                console.log('gameon')
+                switch (userInput.split(" ")[0].trim()) {
+                    case 'exm':
+                        examine(resinput);
+                        break;
+                    case 'pck':
+                        pick(resinput);
+                        break;
+                    case 'inv':
+                        inventory(resinput);
+                        break;
+                    case 'int':
+                        interact(resinput);
+                        break;
+                    case 'drp':
+                        drop(resinput);
+                        break;
+                }
+            }
+        });
+
+
     </script>
 </body>
 
