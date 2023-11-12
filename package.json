@@ -15,7 +15,8 @@
     "jquery": "^3.7.1",
     "morgan": "~1.9.1",
     "nunjucks": "^3.2.4",
-    "sqlite": "^5.0.1"
+    "sqlite": "^5.0.1",
+    "sqlite3": "^5.1.6"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

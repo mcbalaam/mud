@@ -2,6 +2,8 @@ const express = require('express');
 const nunjucks = require('nunjucks')
 const router = express.Router();
 const bodyParser = require('body-parser');
+const sqlite3 = require('sqlite3')
+const db = new sqlite3.Database('gamedata.sqlite3');
 
 const app = express()
 
@@ -16,6 +18,8 @@ let gameon = false
 
 router.get('/', function (req, res) {
   res.render('game.njk')
+  commands = []
+  gameon = false
   console.log("\x1b[34m\x1b[1m" + "Page game.njk requested" + "\x1b[0m");
 });
 
@@ -37,6 +41,7 @@ router.post('/', bodyParser.urlencoded({ extended: false }), function (req, res)
     switch (input) {
       case 'debug':
         cprint('Debug level setting up.', "db");
+        begin()
         return true;
       case '':
         cprint('Argument expected: begin [level].', 'err');
@@ -90,13 +95,26 @@ router.post('/', bodyParser.urlencoded({ extended: false }), function (req, res)
     }
   }
 
-  let userinput = req.body.inpfield
-  cprint(" >> " + userinput)
-  let uinput = userinput.split(" ")
+  function begin() {
+    let room1 = {}
+    db.all("SELECT * FROM roomset_debug WHERE roomid = 1", function (err, row) {
+      if (err) {
+        console.error(err.message);
+      }
+      room1 = row;
+      cprint(row, 'if')
+      console.log(row, "hello")
+    })
+
+  }
+
+  let userinput = req.body.inpfield;
+  cprint(" >> " + userinput);
+  let uinput = userinput.split(" ");
   if (uinput.length > 1) {
-    resinput = uinput[1].trim()
+    resinput = uinput[1].trim();
   } else {
-    resinput = ''
+    resinput = '';
   }
   if (gameon == false) {
     switch (uinput[0]) {
@@ -107,14 +125,13 @@ router.post('/', bodyParser.urlencoded({ extended: false }), function (req, res)
         if (beginatt(resinput) == true) {
           gameon = true;
           cprint('Level initializing.', 'rp')
-          begin(resinput)
         }
         break;
       default:
         cprint('Unknown command.', 'err')
     }
   } else if (gameon == true) {
-    switch (userInput.split(" ")[0].trim()) {
+    switch (userinput.split(" ")[0].trim()) {
       case 'exm':
         examine(resinput);
         break;
@@ -132,8 +149,13 @@ router.post('/', bodyParser.urlencoded({ extended: false }), function (req, res)
         break;
     }
   }
-  res.render('game.njk', { commands: commands });
 
+  if (req.get('Referrer') == req.get('Origin')) {
+    commands = [];
+    res.render('game.njk', { commands: commands });
+  } else {
+    res.render('game.njk', { commands: commands });
+  }
 });
 
 module.exports = router;
