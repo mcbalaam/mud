@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="\stylesheets\style.css" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/lucida-console" rel="stylesheet">
+    <title>Console</title>
+</head>
+
+<body>
+    <div id="terminal">
+        <div id="terminalbody">
+            {% for item in commands %}
+            <div>{{ item }}<div>
+            {% endfor %}
+        </div>
+
+        <form name="terminal" method="post">
+            <input type="text" id="inpfield" name="inpfield" maxlength="20" autofocus>
+        </form>
+    </div>
+
+
+
+    <script>
+        // let gameon = false
+
+        // function cprint(prinput, type) {
+        //     let reply = document.createElement('div');
+        //     reply.textContent = prinput;
+        //     switch (type) {
+        //         case "rp": reply.textContent = "[R] " + reply.textContent; break;
+        //         case "db": reply.textContent = "[DEBUG] " + reply.textContent; break;
+        //         case "if": reply.textContent = "[I] " + reply.textContent; break;
+        //         case "err": reply.textContent = "[X] " + reply.textContent; break;
+        //         default: break;
+        //     }
+        //     document.querySelector('#terminalbody').appendChild(reply);
+        // }
+
+        // function beginatt(input) {
+        //     console.log(input)
+        //     switch (input) {
+        //         case 'debug':
+        //             cprint('Debug level setting up.', "db");
+        //             return true;
+        //         case '':
+        //             cprint('Argument expected: begin [level].', 'err');
+        //             return false;
+        //         default:
+        //             cprint('Unknown argument: begin [level].', 'err');
+        //             return false;
+        //     }
+        // }
+
+        // function info(input) {
+        //     switch (input) {
+        //         case 'changelogs':
+        //             cprint('Last updates:', "rp");
+        //             cprint('10.11.2023 v0.01: Console commands engine introduced.', "if");
+        //             break;
+        //         case '':
+        //             cprint("                       .. - ----.");
+        //             cprint("                     I'__. ..- '';");
+        //             cprint("                     |           .");
+        //             cprint("                     J.");
+        //             cprint("                      L:..._.- -' .");
+        //             cprint("                      |           .");
+        //             cprint("                      J.");
+        //             cprint("                       L:..._.- -' .");
+        //             cprint("                       |           .");
+        //             cprint("                       J.");
+        //             cprint("                        L:..._.- -' .");
+        //             cprint("                        |:.");
+        //             cprint("       ________________ J8:,          ______________a:f____");
+        //             cprint("             a88888baaa. LP:....- -' .");
+        //             cprint('               `"88888888|8:.        .');
+        //             cprint('                   `"8888:8::...    _J');
+        //             cprint('                        " `""PPPPP""');
+        //             cprint('    "The Chamber Of Secrets" v0.01');
+        //             cprint('    By balaam_');
+        //             cprint('    Last update: 10.11.2023');
+        //             break;
+        //         default:
+        //             cprint('Unknown argument: info [changelogs, level, version].', 'err');
+        //             return false;
+        //     }
+        // }
+
+        // function examine(input) {
+        //     switch (input) {
+        //         case '':
+        //             cprint('You look around.', 'rp')
+        //             cprint(roomdesc[roomid], 'if')
+        //             cprint($('In the room you can see: \n', items[roomid]), 'if')
+        //     }
+        // }
+
+        // function begin(input) {
+
+        // }
+
+        // document.querySelector('form[name="terminal"]').addEventListener('submit', function (event) {
+        //     event.preventDefault();
+        //     const userInput = this.elements.inpfield.value;
+        //     const newLine = document.createElement('div');
+        //     cprint(" >> " + userInput)
+        //     this.reset();
+        //     let uinput = userInput.split(" ")
+        //     if (uinput.length > 1) {
+        //         resinput = uinput[1].trim()
+        //     } else {
+        //         resinput = ''
+        //     }
+        //     if (gameon == false) {
+        //         switch (uinput[0]) {
+        //             case "info":
+        //                 info(resinput);
+        //                 break;
+        //             case "begin":
+        //                 if (beginatt(resinput) == true) {
+        //                     gameon = true;
+        //                     cprint('Level initializing.', 'rp')
+        //                     begin(resinput)
+        //                 }
+        //                 break;
+        //             default:
+        //                 cprint('Unknown command.', 'err')
+        //         }
+        //     } else if (gameon == true) {
+        //         console.log('gameon')
+        //         switch (userInput.split(" ")[0].trim()) {
+        //             case 'exm':
+        //                 examine(resinput);
+        //                 break;
+        //             case 'pck':
+        //                 pick(resinput);
+        //                 break;
+        //             case 'inv':
+        //                 inventory(resinput);
+        //                 break;
+        //             case 'int':
+        //                 interact(resinput);
+        //                 break;
+        //             case 'drp':
+        //                 drop(resinput);
+        //                 break;
+        //         }
+        //     }
+        // });
+
+
+    </script>
+</body>
+
+</html>
