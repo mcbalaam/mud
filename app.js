@@ -12,7 +12,6 @@ const gameRouter = require('./routes/index');
 
 app.use('/', gameRouter);
 
-
 nunjucks.configure(path.join(__dirname, 'views'), {
     autoescape: true,
     express: app
@@ -23,9 +22,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-
-
 
 app.listen(port, () => {
   console.log("\x1b[33m\x1b[1m" + `Server is up and listening on port ${port}` + "\x1b[0m");
