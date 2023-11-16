@@ -2,7 +2,8 @@ const express = require('express');
 const nunjucks = require('nunjucks')
 const router = express.Router();
 const bodyParser = require('body-parser');
-const sqlite3 = require('sqlite3')
+const sqlite3 = require('sqlite3');
+const { each } = require('jquery');
 const db = new sqlite3.Database('gamedata.sqlite3');
 
 const app = express()
@@ -15,11 +16,15 @@ app.use(
 
 let commands = []
 let gameon = false
+let roomset = ''
+let itemlist = []
 
 router.get('/', function (req, res) {
   res.render('game.njk')
   commands = []
   gameon = false
+  roomset = ''
+  printput = ''
   console.log("\x1b[34m\x1b[1m" + "Page game.njk requested" + "\x1b[0m");
 });
 
@@ -31,6 +36,7 @@ router.post('/', bodyParser.urlencoded({ extended: false }), function (req, res)
       case "db": prinput = "[DEBUG] " + prinput; break;
       case "if": prinput = "[I] " + prinput; break;
       case "err": prinput = "[X] " + prinput; break;
+      case "fatal": prinput = "[ERROR] " + prinput; break;
       default: break;
     }
     commands.push(prinput);
@@ -41,7 +47,7 @@ router.post('/', bodyParser.urlencoded({ extended: false }), function (req, res)
     switch (input) {
       case 'debug':
         cprint('Debug level setting up.', "db");
-        begin()
+        roomset = 'roomset_debug'
         return true;
       case '':
         cprint('Argument expected: begin [level].', 'err');
@@ -52,7 +58,7 @@ router.post('/', bodyParser.urlencoded({ extended: false }), function (req, res)
     }
   }
 
-  function info(input) {
+  function info(input) { // info 
     switch (input) {
       case 'changelogs':
         cprint('Last updates:', "rp");
@@ -86,26 +92,35 @@ router.post('/', bodyParser.urlencoded({ extended: false }), function (req, res)
     }
   }
 
-  function examine(input) {
-    switch (input) {
-      case '':
-        cprint('You look around.', 'rp')
-        cprint(roomdesc[roomid], 'if')
-        cprint($('In the room you can see: \n', items[roomid]), 'if')
-    }
+  function examine(input) { // examine function, 'exm'
+    itemlist = []
+    db.all(`SELECT * FROM itemsglobal`, function (err, items) {
+      loadroom(roomset, 1, function (roominfo) {
+        console.log(items[roominfo.roomitems - 1])
+        switch (input) {
+          case '': // room examination
+            console.log('case succsess')
+            cprint('You look around.', 'rp');
+            cprint(roominfo.roomdesc, 'if')
+            cprint(`In the room you can see: \n - ${items[roominfo.roomitems - 1].itemname}, (${items[roominfo.roomitems - 1].itemsc}).`, 'if');
+            break;
+          default: // empty
+            cprint('default', 'db')
+            break;
+        }
+      });
+    })
   }
 
-  function begin() {
-    let room1 = {}
-    db.all("SELECT * FROM roomset_debug WHERE roomid = 1", function (err, row) {
+  function loadroom(roomset, curroom, callback) {
+    console.log('loadroom function called')
+    db.all(`SELECT * FROM ${roomset} WHERE roomid = ${curroom}`, function (err, items) {
       if (err) {
-        console.error(err.message);
+        console.error(err);
+      } else {
+        callback(items[0]);
       }
-      room1 = row;
-      cprint(row, 'if')
-      console.log(row, "hello")
-    })
-
+    });
   }
 
   let userinput = req.body.inpfield;
@@ -150,12 +165,7 @@ router.post('/', bodyParser.urlencoded({ extended: false }), function (req, res)
     }
   }
 
-  if (req.get('Referrer') == req.get('Origin')) {
-    commands = [];
-    res.render('game.njk', { commands: commands });
-  } else {
-    res.render('game.njk', { commands: commands });
-  }
-});
+  res.render('game.njk', { commands: commands })
+})
 
 module.exports = router;
