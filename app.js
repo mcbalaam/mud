@@ -8,7 +8,7 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 8000;
 
-const gameRouter = require('./routes/index');
+const gameRouter = require('./routes/index.js');
 
 app.use('/', gameRouter);
 
