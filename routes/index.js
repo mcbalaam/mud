@@ -28,7 +28,7 @@ router.get("/", function (req, res) {
   roomset = "";
   prinput = "";
   hands = []
-  console.log("\x1b[34m\x1b[1m" + "Page game.njk requested" + "\x1b[0m");
+  console.log("\x1b[34m\x1b[1m" + "Page loading." + "\x1b[0m");
 });
 
 router.post("/", bodyParser.urlencoded({ extended: false }), function (req, res) {
@@ -61,7 +61,6 @@ router.post("/", bodyParser.urlencoded({ extended: false }), function (req, res)
   }
 
   function beginatt(input) {
-    console.log(input);
     switch (input) {
       case "debug":
         cprint("Debug level setting up.", "db");
@@ -125,7 +124,6 @@ router.post("/", bodyParser.urlencoded({ extended: false }), function (req, res)
         roomItems.forEach((item) => {
           roomItemsList.push(item)
         });     // список наполнен
-        console.log(roomItemsList)
 
         switch (input) {      // обработка аргументов команды
           case '':  console.log('room examination');      // осмотр комнаты 
@@ -151,7 +149,6 @@ router.post("/", bodyParser.urlencoded({ extended: false }), function (req, res)
             let reqItem = roomItemsList.find(
               (item) => item.itemsc === input
             );
-            console.log(reqItem);
             cprint(`You look at ${reqItem.itemname} closer.`, "rp");
             cprint(reqItem.itemdesc, 'if')
         }
@@ -174,6 +171,7 @@ router.post("/", bodyParser.urlencoded({ extended: false }), function (req, res)
   }
 
   function pickup(sCut) {
+    let roomId = 1
     db.all(`SELECT * FROM itemsglobal`, function (err, globalItems) {     // создание массива всех существующих объектов globalItems
       loadroom(roomset, roomId, function (roomInfo) {     // загрузка данных комнаты - описание, список предметов, etc. в объект RoomInfo
         let roomItemsList = []      // создание списка объектов с данными всех предметов в комнате
@@ -183,36 +181,36 @@ router.post("/", bodyParser.urlencoded({ extended: false }), function (req, res)
         roomItems.forEach((item) => {
           roomItemsList.push(item)
         });     // список наполнен
-        console.log(roomItemsList)
 
         switch (sCut) {      // обработка аргументов команды
           case '':  console.log('pickup empty')     // пустой аргумент (ошибка)
             cprint('Argument expected: pck [item shortcut].', 'err');
             break;
           default:  console.log(`pickup ${sCut}`)     // осмотр предмета по шорткату
+            console.log(hands)
             let reqItem = roomItemsList.find(
               (item) => item.itemsc === sCut
             );
-            console.log(reqItem);
             cprint(`You reach out to grab ${reqItem.itemname}...`, 'rp');
             switch (hands) {
               case []:
                 hands.push(reqItem)
                 cprint(`You are now holding ${reqItem.itemname}.`, 'if')
+                console.log(hands)
                 break;
               default:
                 handsSize = 0
-                for (each in hands) {
-                  handsSize += each.itempick
+                for (let i = 0; i < hands.length; i++) {
+                  handsSize += parseInt(hands[i].itempick);
                 }
                 if (handsSize + reqItem.itempick <= 2) {
                   hands.push(reqItem)
                   cprint(`You are now holding ${reqItem.itemname}.`, 'if')
+                  console.log(hands)
                 } else {
                   cprint(`Your hands are too busy to pick up ${reqItem.itemname}!`, 'if')
                 }
             }
-            cprint(reqItem.itemdesc, 'if')
         }
       });
     });
@@ -232,7 +230,6 @@ router.post("/", bodyParser.urlencoded({ extended: false }), function (req, res)
       switch(commandSplit[0]) {
         case 'info':
           info(secArg);
-          console.log(secArg)
           break;
         case 'begin':
           if (beginatt(secArg) == true) {
