@@ -206,51 +206,67 @@ router.post(
     }
   }
 
-    function basecom(userInput) {
-      // функция отправки команд
-      let secArg = "";
-      cprint(userInput, "br");
-      let commandSplit = userInput.split(" ");
-      console.log(commandSplit);
-      if (commandSplit.length > 1) {
-        secArg = commandSplit[1];
-      } else {
-        secArg = "";
-      }
-      if (gameon == false) {
-        switch (commandSplit[0]) {
-          case "info":
-            info(secArg);
-            break;
-          case "begin":
-            if (beginatt(secArg) == true) {
-              gameon = true;
-              cprint("Level initializing.", "rp");
-            }
-            break;
-          default:
-            cprint("Unknown command.", "err");
-        }
-      } else if (gameon == true) {
-        switch (commandSplit[0]) {
-          case "exm":
-            examine(secArg);
-            break;
-          case "pck":
-            pickup(secArg);
-            break;
-          case "inv":
-            inventory(secArg);
-            break;
-          case "int":
-            interact(secArg);
-            break;
-          case "drp":
-            drop(secArg);
-            break;
-        }
+  function drop(sCut) {
+    if (hands.length === 0){
+      cprint('You are not holding anything!', 'if')
+    } else {
+      switch (sCut) {
+        case '':
+          cprint('Argument expected: drp [item shortcut].', 'err')
+        default:
+          console.log(`dropping ${sCut}`)
+          let reqItem = hands.find((item) => item.itemsc === sCut);
+          currentRoomItemsList.push(reqItem)
+          hands = hands.filter((item) => item.itemsc !== sCut);
+          cprint(`You scatter ${reqItem.itemname} on the floor, where it belongs.`, 'if')
       }
     }
+  }
+
+  function basecom(userInput) {     // функция отправки команд
+    let secArg = "";
+    cprint(userInput, "br");
+    let commandSplit = userInput.split(" ");
+    console.log(commandSplit);
+    if (commandSplit.length > 1) {
+      secArg = commandSplit[1];
+    } else {
+      secArg = "";
+    }
+    if (gameon == false) {
+      switch (commandSplit[0]) {
+        case "info":
+          info(secArg);
+          break;
+        case "begin":
+          if (beginatt(secArg) == true) {
+            gameon = true;
+            cprint("Level initializing.", "rp");
+          }
+          break;
+        default:
+          cprint("Unknown command.", "err");
+      }
+    } else if (gameon == true) {
+      switch (commandSplit[0]) {
+        case "exm":
+          examine(secArg);
+          break;
+        case "pck":
+          pickup(secArg);
+          break;
+        case "inv":
+          inventory(secArg);
+          break;
+        case "int":
+          interact(secArg);
+          break;
+        case "drp":
+          drop(secArg);
+          break;
+      }
+    }
+  }
 
     basecom(userInput);
     res.render("game.njk", { commands: commands });
