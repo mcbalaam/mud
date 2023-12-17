@@ -8,7 +8,7 @@ a {
 }
 
 #terminal {
-  background-color: #0f0f0f;
+  background-color: #000000;
   height: 80vh;
   position: absolute;
   margin-left: 18vw;
@@ -32,22 +32,24 @@ a {
 }
 
 #inpfield {
-  background-color: rgb(10, 10, 10);
+  background-color: rgb(29, 27, 27);
   position: relative;
   height: 25px;
   width: 56vw;
   border: none;
-  color: rgb(96, 194, 16);
+  color: rgb(82, 119, 51);
   border-radius: 5px;
   font-family: 'Lucida Console', sans-serif;
   font-weight: 500;
   font-size: 15px;
-  margin: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
   outline: none;
 }
 
 #terminalbody>div {
-  color: rgb(96, 194, 16);
+  color: rgb(82, 119, 51);
   margin-bottom: 10px;
   font-family: 'Lucida Console', sans-serif;
   font-weight: 500;

@@ -23,14 +23,14 @@ let roomList = [];
 let currentRoomItemsList = []
 
 router.get("/", function (req, res) {
-  res.render("game.njk");
-  commands = [];
+  commands = ['[I] Welcome to The Chamber Of Secrets (Early Beta).', '[I] Type a command or use "help" or "?" to list all the commands.'];
   gameon = false;
   roomset = "";
   prinput = "";
   hands = [];
   roomItemsList = [];
   console.log("\x1b[34m\x1b[1m" + "Page loading." + "\x1b[0m");
+  res.render("game.njk", { commands: commands });
 });
 
 router.post(
@@ -179,6 +179,31 @@ router.post(
     );
   }
 
+  function levelList(){
+    cprint('Current levels avalible:', 'if')
+    cprint(' - debug')
+  }
+
+  function help(){
+    cprint('Chat commands:', 'if')
+    cprint('Cmd                Arguments            Description')
+    cprint('~~~                ~~~~~~~~~            ~~~~~~~~~~~')
+    cprint('begin              [roomset]            Begins a game on a stated roomset')
+    cprint('info               [empty]              Displays basic info about the game')
+    cprint('                    changelogs          Displays changelogs')
+    cprint('levels             [empty]             Displays avalible roomsets')
+    cprint('Game commands:', 'if')
+    cprint('Cmd                Arguments            Description')
+    cprint('~~~                ~~~~~~~~~            ~~~~~~~~~~~')
+    cprint("exm                [empty]              Examines the room you're in, lists the items and other")
+    cprint('                                        objects')
+    cprint(`                   [item shortcut]      Examines the item that's in the room by the given shortcut`)
+    cprint(`                    hands               Examines what are you holging right now`)
+    cprint(`pck                [item shortcut]      Picks up the item by the given shortcut if your hands`)
+    cprint(`                                        are not occupied by something already`)
+    cprint(`drp                [item shortcut]      Drops the item you were holding in your hand`)
+  }
+
   function pickup(sCut) {      // функция pck, поднять предмет в комнате
     switch (sCut) {      // обработка аргументов команды 
       case "":
@@ -237,6 +262,15 @@ router.post(
       switch (commandSplit[0]) {
         case "info":
           info(secArg);
+          break;
+        case 'help':
+          help(secArg)
+          break;
+        case 'levels':
+          levelList(secArg)
+          break;
+        case '?':
+          help(secArg)
           break;
         case "begin":
           if (beginatt(secArg) == true) {
